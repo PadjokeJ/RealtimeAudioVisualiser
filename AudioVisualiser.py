@@ -1,14 +1,21 @@
-import pyaudio
-import numpy as np
-import pygame
+print("import time at 0.0")
 import time
+print("import pyaudio at " + str(time.thread_time()))
+import pyaudio
+print("import numpy at " + str(time.thread_time()))
+import numpy as np
+print("import pygame at " + str(time.thread_time()))
+import pygame
+
 
 #gives time to switch windows for when pynput is active
 #time.sleep(1)
 
 #pynput initialise
+print("import pynput at " + str(time.thread_time()))
 from pynput import keyboard
 kb = keyboard.Controller()
+print("finished imports at "  + str(time.thread_time()))
 
 #pygame initialise
 pygame.init()
@@ -16,6 +23,7 @@ pygame.mixer.init()
 scr = (width, height) = (1024, 1024)
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
+print("intit pygame done " + str(time.thread_time()))
 
 #PyAudio initialise
 p=pyaudio.PyAudio()
@@ -23,11 +31,12 @@ FORMAT = pyaudio.paFloat32
 CHANNELS = 1
 RATE = 44100
 CHUNK = 2000 
+print("intit pyaudio done " + str(time.thread_time()))
 
-#Get all audio devices for debugging
-for i in range(p.get_device_count()):
-    print(p.get_device_info_by_index(i))
-print(p.get_default_input_device_info())
+#Get all audio devices for debugging, uncomment to find your input device
+#for i in range(p.get_device_count()):
+#    print(p.get_device_info_by_index(i))
+#print(p.get_default_input_device_info())
 stream = p.open(format = FORMAT,
             channels = CHANNELS,
             rate = RATE,
@@ -36,6 +45,7 @@ stream = p.open(format = FORMAT,
             input_device_index= 1,
             frames_per_buffer = CHUNK)
 stop = True
+print("audio stream open " + str(time.thread_time()))
 
 #frequency to note+octave string
 A4 = 440
@@ -82,6 +92,7 @@ def update_line(s):
     data = np.log10(np.sqrt(
         np.real(data)**2+np.imag(data)**2) / CHUNK) * 10
     return data
+print("finished declaring " + str(time.thread_time()))
 
 font = pygame.font.Font('freesansbold.ttf', 8)
 notes = []
