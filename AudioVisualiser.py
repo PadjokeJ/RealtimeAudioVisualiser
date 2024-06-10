@@ -37,6 +37,7 @@ print("intit pyaudio done " + str(time.thread_time()))
 #for i in range(p.get_device_count()):
 #    print(p.get_device_info_by_index(i))
 #print(p.get_default_input_device_info())
+
 stream = p.open(format = FORMAT,
             channels = CHANNELS,
             rate = RATE,
