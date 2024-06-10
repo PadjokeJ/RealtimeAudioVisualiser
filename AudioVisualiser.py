@@ -7,14 +7,14 @@ import numpy as np
 print("import pygame at " + str(time.thread_time()))
 import pygame
 
+print("import genshin implementation at " + str(time.thread_time()))
+from GenshinAutoInput import *
+
 
 #gives time to switch windows for when pynput is active
 #time.sleep(1)
 
-#pynput initialise
-print("import pynput at " + str(time.thread_time()))
-from pynput import keyboard
-kb = keyboard.Controller()
+
 print("finished imports at "  + str(time.thread_time()))
 
 #pygame initialise
@@ -71,15 +71,6 @@ def note(f):
     n = round(12*np.log2(f/C0)) % 12
     return n
 
-# notes to genshin implementation -> genshin doesn't detect the inputs?
-n = [["y", "Y", "x", "X","c", "v", "V", "b", "B", "n", "N", "m"], ["a", "A", "s", "S", "d", "f", "F", "g", "G", "h", "H", "j"], ["q", "Q", "w", "W", "e", "r", "R", "t", "T", "z", "Z", "u"]]
-def playPitch(octave, note):
-    try:
-        kb.press(n[octave-3][note])
-        return n[octave-3][note]
-    except:
-        print("Note out of range")
-        return "l" # unused key --> so it doesn't return null to pynput who won't be happy 
     
 #update the frequency(data) to be in tune with current audio    
 def update_line(s):
@@ -106,8 +97,7 @@ size = 10
 
 
 while stop:
-    for i in keys:
-        kb.release(i) #release previous used keys
+    releaseAllKeys(keys)
     keys = []
     val = []
     clock.tick(120)
@@ -133,10 +123,10 @@ while stop:
     text = font.render("Fps: " + str(round(clock.get_fps())), True, (0, 0, 0))  # show frames
     screen.blit(text, (0, 0))
     
-    #I have something planned for this in the future
-    #for i in notes:
-    #    print(pitch(i))
-    #    keys.append(playPitch(octave(i), note(i)))
+    #Save keys, and play them
+    for i in notes:
+        keys.append(playPitch(octave(i), note(i)))
+        
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -149,5 +139,4 @@ while stop:
 stream.stop_stream()
 stream.close()
 p.terminate()
-for i in keys:
-        kb.release(i)
+releaseAllKeys(keys)
