@@ -110,8 +110,6 @@ while stop:
 
         pygame.draw.line(screen, (0  , 0, 0), ((j-1)*size, height/2 - h2), ((j)*size, height/2 - h), 5) # render audio waves
         h2 = h
-    text = font.render("Fps: " + str(round(clock.get_fps())), True, (0, 0, 0))  # show frames
-    screen.blit(text, (0, 0))
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
