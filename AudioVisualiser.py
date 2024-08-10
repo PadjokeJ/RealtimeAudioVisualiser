@@ -119,6 +119,8 @@ while stop:
             break
     if not stop:
         break
+    _fps = font.render(f"{clock.get_fps()} fps", True, (0, 0, 0))
+    screen.blit(_fps, (0, 0))
     pygame.display.flip()
 #end of program --> close unneeded ressources
 stream.stop_stream()
